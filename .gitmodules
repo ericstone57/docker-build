@@ -1,0 +1,3 @@
+[submodule "nginx-drupal7/drupal-with-nginx"]
+	path = nginx-drupal7/drupal-with-nginx
+	url = git@github.com:ericstone57/drupal-with-nginx.git
