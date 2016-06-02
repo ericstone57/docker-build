@@ -62,8 +62,8 @@ RUN rm memcached-2.2.0.zip
 RUN docker-php-ext-install memcached-2.2.0
 
 # Install mongo
-RUN pecl install mongodb-beta
-RUN echo "extension=mongo.so" > /usr/local/etc/php/conf.d/mongo.ini
+RUN pecl install mongodb
+RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongodb.ini
 
 # Install ftp
 RUN docker-php-ext-install ftp
@@ -73,3 +73,23 @@ RUN apt-get install -y libicu-dev
 RUN pecl install intl
 RUN docker-php-ext-install intl
 
+# Install xdebug
+RUN pecl install xdebug
+RUN echo "zend_extenstion=/usr/local/lib/php/extensions/no-debug-non-zts-20151012/xdebug.so" > /usr/local/etc/php/conf.d/xdebug.ini
+
+# PHP.ini
+COPY ./conf/php.ini-development /usr/local/etc/php/php.ini
+
+# PHP-FPM configuration
+COPY ./conf/php-fpm.conf-development /usr/local/etc/php-fpm.conf
+RUN rm -rf /usr/local/etc/php-fpm.d/*
+COPY ./conf/php-fpm.d /usr/local/etc/php-fpm.d
+
+EXPOSE 9000 9001
+
+# Include the start script
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+WORKDIR /root
+
+CMD ["start.sh"]
