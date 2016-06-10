@@ -1,0 +1,7 @@
+[global]
+
+error_log = /var/log/php5-fpm/php5-fpm.log
+;error_log = /proc/self/fd/2
+daemonize = no
+
+include=/etc/php5/fpm/pool.d/*.conf

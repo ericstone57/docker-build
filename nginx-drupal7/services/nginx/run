@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+ps cax | grep nginx > /dev/null
+if [ $? -ne 0 ]; then
+    /usr/sbin/nginx
+fi
