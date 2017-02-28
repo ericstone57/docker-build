@@ -1,0 +1,33 @@
+version: '2'
+services:
+  nginx:
+    image: registry.cn-hangzhou.aliyuncs.com/kuri/sam_wechat_nginx
+    ports:
+      - "10080:80"  
+    restart: always
+    volumes:
+      - /var/lib/docker/data/websites/nginx_conf/sites-enabled:/etc/nginx/sites-enabled
+    volumes_from:
+      - data
+    links:
+      - php
+    depends_on:
+      - php
+    command: /bin/bash -c "nginx -g 'daemon off;'"
+    labels:
+      aliyun.logs: /var/log
+      aliyun.routing.port_80: wx-demo.e0x233.com;boucheron.e0x233.com
+      aliyun.probe.url: tcp://container:80
+      aliyun.probe.initial_delay_seconds: '10'
+  php:
+    image: registry.cn-hangzhou.aliyuncs.com/kuri/sam_wechat_php_production
+    volumes_from:
+      - data
+    restart: always
+  data:
+    image: registry.cn-hangzhou.aliyuncs.com/kuri/sam_wechat_php
+    volumes:
+      - /var/lib/docker/data/websites/sam_wechat:/var/www/wx-demo.e0x233.com
+      - /var/lib/docker/data/websites/boucheron_wechat:/var/www/boucheron.e0x233.com
+      - /var/lib/docker/data/websites/vendor:/var/www/vendor
+    command: /bin/true
