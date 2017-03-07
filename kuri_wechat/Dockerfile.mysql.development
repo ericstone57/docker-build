@@ -1,0 +1,5 @@
+FROM mysql:latest
+
+MAINTAINER Eric <ericstone.dev@gmail.com>
+
+COPY ./mysql/my.cnf /etc/mysql/my.cnf

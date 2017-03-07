@@ -1,0 +1,6 @@
+FROM registry.cn-hangzhou.aliyuncs.com/kuri/sam_wechat_php
+
+COPY ./web /var/www/html
+COPY ./vendor /var/www/vendor
+
+WORKDIR /var/www/html

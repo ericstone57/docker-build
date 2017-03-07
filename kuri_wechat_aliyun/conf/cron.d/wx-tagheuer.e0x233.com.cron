@@ -1,0 +1,7 @@
+##### wx-grizzly.e0x233.com
+# Consume Msg MQ
+* * * * * cd /var/www/wx-tagheuer.e0x233.com && /usr/local/bin/php scripts/kuri_wechat/cron/mq_consume_received_msg.php >> /var/log/wechat-cron.log 2>&1
+# Statistics
+5 0 * * * cd /var/www/wx-tagheuer.e0x233.com && /usr/local/bin/php scripts/kuri_wechat/cron/statistics_daily.php >> /var/log/wechat-cron.log 2>&1
+# Drupal Cron
+10 * * * * /usr/local/bin/drush --root=/var/www/wx-tagheuer.e0x233.com --uri=wx-tagheuer.e0x233.com --quiet cron

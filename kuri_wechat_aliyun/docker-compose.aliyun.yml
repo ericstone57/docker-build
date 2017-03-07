@@ -16,7 +16,7 @@ services:
     command: /bin/bash -c "nginx -g 'daemon off;'"
     labels:
       aliyun.logs: /var/log
-      aliyun.routing.port_80: wx-demo.e0x233.com;boucheron.e0x233.com;wx-grizzly.e0x233.com
+      aliyun.routing.port_80: wx-demo.e0x233.com;boucheron.e0x233.com;wx-grizzly.e0x233.com;wx-tagheuer.e0x233.com
       aliyun.probe.url: tcp://container:80
       aliyun.probe.initial_delay_seconds: '10'
   php:
@@ -39,12 +39,18 @@ services:
     volumes_from:
      - data
     command: /bin/bash -c "crontab /etc/cron.d/boucheron.e0x233.com.cron && /usr/sbin/cron -f"  
+  php-cron-tagheuer:
+    image: registry.cn-hangzhou.aliyuncs.com/kuri/sam_wechat_php_cron
+    volumes_from:
+     - data
+    command: /bin/bash -c "crontab /etc/cron.d/wx-tagheuer.e0x233.com.cron && /usr/sbin/cron -f"      
   data:
     image: registry.cn-hangzhou.aliyuncs.com/kuri/sam_wechat_php
     volumes:
       - /var/lib/docker/data/websites/wx-demo.e0x233.com:/var/www/wx-demo.e0x233.com
       - /var/lib/docker/data/websites/boucheron.e0x233.com:/var/www/boucheron.e0x233.com
       - /var/lib/docker/data/websites/wx-grizzly.e0x233.com:/var/www/wx-grizzly.e0x233.com
+      - /var/lib/docker/data/websites/wx-tagheuer.e0x233.com:/var/www/wx-tagheuer.e0x233.com
       - /var/lib/docker/data/websites/vendor:/var/www/vendor
       - /var/lib/docker/data/websites/conf/cron.d:/etc/cron.d
       - /var/lib/docker/data/websites/conf/nginx:/etc/nginx

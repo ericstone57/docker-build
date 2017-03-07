@@ -16,3 +16,4 @@ rsync \
 ssh $PRO_SRV cp $PRO_WWW/drupal_conf/wx-demo.e0x233.com/settings.php /home/eric/websites/wx-demo.e0x233.com/sites/default/settings.php
 ssh $PRO_SRV cp $PRO_WWW/drupal_conf/boucheron.e0x233.com/settings.php /home/eric/websites/boucheron.e0x233.com/sites/default/settings.php
 ssh $PRO_SRV cp $PRO_WWW/drupal_conf/wx-grizzly.e0x233.com/settings.php /home/eric/websites/wx-grizzly.e0x233.com/sites/default/settings.php
+ssh $PRO_SRV cp $PRO_WWW/drupal_conf/wx-tagheuer.e0x233.com/settings.php /home/eric/websites/wx-tagheuer.e0x233.com/sites/default/settings.php
