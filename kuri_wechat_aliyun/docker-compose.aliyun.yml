@@ -1,0 +1,52 @@
+version: '2'
+services:
+  nginx:
+    image: registry.cn-hangzhou.aliyuncs.com/kuri/sam_wechat_nginx:0.1
+    ports:
+      - "10080:80"  
+    restart: always
+    volumes_from:
+      - data
+    links:
+      - php
+      - php2
+    depends_on:
+      - php
+      - php2
+    command: /bin/bash -c "nginx -g 'daemon off;'"
+    labels:
+      aliyun.logs: /var/log
+      aliyun.routing.port_80: wx-demo.e0x233.com;boucheron.e0x233.com;wx-grizzly.e0x233.com
+      aliyun.probe.url: tcp://container:80
+      aliyun.probe.initial_delay_seconds: '10'
+  php:
+    image: registry.cn-hangzhou.aliyuncs.com/kuri/sam_wechat_php
+    volumes_from:
+      - data
+    restart: always
+  php2:
+    image: registry.cn-hangzhou.aliyuncs.com/kuri/sam_wechat_php
+    volumes_from:
+      - data
+    restart: always    
+  php-cron-grizzly:
+    image: registry.cn-hangzhou.aliyuncs.com/kuri/sam_wechat_php_cron
+    volumes_from:
+     - data
+    command: /bin/bash -c "crontab /etc/cron.d/wx-grizzly.e0x233.com.cron && /usr/sbin/cron -f"
+  php-cron-boucheron:
+    image: registry.cn-hangzhou.aliyuncs.com/kuri/sam_wechat_php_cron
+    volumes_from:
+     - data
+    command: /bin/bash -c "crontab /etc/cron.d/boucheron.e0x233.com.cron && /usr/sbin/cron -f"  
+  data:
+    image: registry.cn-hangzhou.aliyuncs.com/kuri/sam_wechat_php
+    volumes:
+      - /var/lib/docker/data/websites/wx-demo.e0x233.com:/var/www/wx-demo.e0x233.com
+      - /var/lib/docker/data/websites/boucheron.e0x233.com:/var/www/boucheron.e0x233.com
+      - /var/lib/docker/data/websites/wx-grizzly.e0x233.com:/var/www/wx-grizzly.e0x233.com
+      - /var/lib/docker/data/websites/vendor:/var/www/vendor
+      - /var/lib/docker/data/websites/conf/cron.d:/etc/cron.d
+      - /var/lib/docker/data/websites/conf/nginx:/etc/nginx
+      - /var/lib/docker/data/websites/conf/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    command: /bin/true
