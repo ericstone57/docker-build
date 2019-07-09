@@ -8,7 +8,7 @@ RUN apt-get update \
                 git \
                 libmemcached-dev \
                 zlib1g-dev \
-                libpng12-dev \
+                libpng-dev \
                 libjpeg-dev \
                 libpq-dev \
                 mysql-client \
@@ -17,7 +17,7 @@ RUN apt-get update \
                 libmemcached11 \
                 libmemcachedutil2 \
                 zlib1g-dev \
-                libpng12-dev \
+                libpng-dev \
                 libjpeg-dev \
                 libpq-dev \
         " \
@@ -42,5 +42,8 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/3.
 
 # install envsubst
 RUN apt-get update && apt-get install -y gettext-base
+
+# install imagemagick
+RUN apt-get install -y imagemagick
 
 WORKDIR /var/www/html
